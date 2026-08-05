@@ -17,12 +17,12 @@ The matching profile needs to be selected when running Servo:
 ./mach run --profile profiling http://example.org
 ```
 
-Several ways to get profiling information about Servo's runs:
+There are several ways to get profiling information about Servo's runs:
 * [Tracing with Perfetto](#tracing-with-perfetto)
+* [Profiling with Samply](#profiling-with-samply)
 * [Interval Profiling](#interval-profiling)
   * [TSV Profiling](#tsv-profiling)
   * [Generating Timelines](#generating-timelines)
-  * [Built-in sampling profiler](#sampling-profiler)
 * [Memory Profiling](#memory-profiling)
 * [Using macOS Instruments](#using-macos-instruments)
 
@@ -60,6 +60,20 @@ This creates a `servo.pftrace` file in the current directory, which can be visua
 
 [`EnvFilter` directives]: https://docs.rs/tracing-subscriber/0.3.23/tracing_subscriber/filter/struct.EnvFilter.html#directives
 
+## Profiling with Samply
+[Samply](https://github.com/mstange/samply) is a cross-platform (Windows/Linux/Mac) sampling profiler.
+
+Assuming a profiling build as described above, the following command will run servoshell and automatically generate a performance report when it's closed:
+
+```sh
+samply record target/profiling/servoshell
+```
+
+On Linux, you might need to enable perf events first:
+
+```sh
+echo '-1' | sudo tee /proc/sys/kernel/perf_event_paranoid
+```
 
 ## Interval Profiling
 
@@ -126,21 +140,6 @@ Because it is a self contained file (all CSS and JS is inline), it is easy to sh
 The JS, CSS, and HTML for the timeline comes from [fitzgen/servo-trace-dump](https://github.com/fitzgen/servo-trace-dump/) and there is a script in that repo for updating servo's copy.
 
 All other code is in the `components/profile/` directory.
-
-## Sampling profiler
-
-Servo includes a sampling profiler which generates profiles that can be opened in the [Gecko profiling tools](https://profiler.firefox.com/).
-To use them:
-
-1. Run Servo, loading the page you wish to profile
-2. Press Ctrl+P (or Cmd+P on macOS) to start the profiler (the console should show "Enabling profiler")
-3. Press Ctrl+P (or Cmd+P on macOS) to stop the profiler (the console should show "Stopping profiler")
-4. Keep Servo running until the symbol resolution is complete (the console should show a final "Resolving N/N")
-5. Run `python etc/profilicate.py samples.json >gecko_samples.json` to transform the profile into a format that the Gecko profiler understands
-6. Load `gecko_samples.json` into https://profiler.firefox.com/
-
-To control the output filename, set the `PROFILE_OUTPUT` environment variable.
-To control the sampling rate (default 10ms), set the `SAMPLING_RATE` environment variable.
 
 ## Memory Profiling
 
