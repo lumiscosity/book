@@ -60,25 +60,15 @@ This creates a `servo.pftrace` file in the current directory, which can be visua
 
 [`EnvFilter` directives]: https://docs.rs/tracing-subscriber/0.3.23/tracing_subscriber/filter/struct.EnvFilter.html#directives
 
-## Profiling with Samply
-[Samply](https://github.com/mstange/samply) is a cross-platform (Windows/Linux/Mac) sampling profiler.
-
-Assuming a profiling build as described above, the following command will run servoshell and automatically generate a performance report when it's closed:
-
-```sh
-samply record target/profiling/servoshell
-```
-
-On Linux, you might need to enable perf events first:
-
-```sh
-echo '-1' | sudo tee /proc/sys/kernel/perf_event_paranoid
 ## Sampling Profiling
 
 [samply](https://github.com/mstange/samply) is a cross-platform sampling profiler. Assuming that you have build a profiling build as described above, the following command will run `servoshell` and display a visualization of the run in your browser:
 
 ```sh
 samply record target/profiling/servoshell
+```
+
+On certain platforms, `samply` might need extra setup - see [the documentation](https://github.com/mstange/samply#description) for more information.
 
 ## Interval Profiling
 
