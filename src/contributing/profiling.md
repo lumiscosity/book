@@ -73,7 +73,12 @@ On Linux, you might need to enable perf events first:
 
 ```sh
 echo '-1' | sudo tee /proc/sys/kernel/perf_event_paranoid
-```
+## Sampling Profiling
+
+[samply](https://github.com/mstange/samply) is a cross-platform sampling profiler. Assuming that you have build a profiling build as described above, the following command will run `servoshell` and display a visualization of the run in your browser:
+
+```sh
+samply record target/profiling/servoshell
 
 ## Interval Profiling
 
