@@ -19,7 +19,7 @@ The matching profile needs to be selected when running Servo:
 
 There are several ways to get profiling information about Servo's runs:
 * [Tracing with Perfetto](#tracing-with-perfetto)
-* [Profiling with Samply](#profiling-with-samply)
+* [Sampling Profiling](#sampling-profiling)
 * [Interval Profiling](#interval-profiling)
   * [TSV Profiling](#tsv-profiling)
   * [Generating Timelines](#generating-timelines)
